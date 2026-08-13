@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Fluxi.Api/Fluxi.Api.csproj" />
+    <Project Path="src/Fluxi.Application/Fluxi.Application.csproj" />
+    <Project Path="src/Fluxi.Domain/Fluxi.Domain.csproj" />
+    <Project Path="src/Fluxi.Infrastructure/Fluxi.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Fluxi.Api.Tests/Fluxi.Api.Tests.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,6 @@
+@Fluxi.Api_HostAddress = http://localhost:5112
+
+GET {{Fluxi.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

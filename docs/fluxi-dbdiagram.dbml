@@ -1,0 +1,70 @@
+// Fluxi — schema v1 para dbdiagram.io
+// Manter este arquivo sincronizado com fluxi-schema.md
+
+Table account {
+  id uuid [pk]
+  name text [not null]
+  bank text [not null]
+  type text [not null]
+  import_method text [not null]
+}
+
+Table category {
+  id uuid [pk]
+  name text [not null, unique]
+}
+
+Table category_rule {
+  id uuid [pk]
+  pattern text [not null]
+  category_id uuid [not null, ref: > category.id]
+  priority int [not null, default: 0]
+}
+
+Table invoice {
+  id uuid [pk]
+  account_id uuid [not null, ref: > account.id]
+  reference text [not null]
+  closing_date date [not null]
+  due_date date [not null]
+  total_amount decimal
+  status text [not null]
+}
+
+Table transaction {
+  id uuid [pk]
+  account_id uuid [not null, ref: > account.id]
+  invoice_id uuid [ref: > invoice.id]
+  category_id uuid [ref: > category.id]
+  date date [not null]
+  description text [not null]
+  amount decimal [not null]
+  type text [not null]
+  origin text [not null]
+  hash text [unique]
+  created_at timestamp [not null, default: `CURRENT_TIMESTAMP`]
+}
+
+Table income {
+  id uuid [pk]
+  account_id uuid [not null, ref: > account.id]
+  description text [not null]
+  amount decimal [not null]
+  receipt_day int [not null]
+  is_recurring boolean [not null, default: true]
+}
+
+Table fixed_expense {
+  id uuid [pk]
+  description text [not null]
+  amount decimal [not null]
+  due_day int [not null]
+  notes text
+}
+
+Ref: transaction.account_id > account.id
+Ref: transaction.invoice_id > invoice.id
+Ref: transaction.category_id > category.id
+Ref: category_rule.category_id > category.id
+Ref: invoice.account_id > account.id
+Ref: income.account_id > account.id

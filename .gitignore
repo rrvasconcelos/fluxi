@@ -1,0 +1,13 @@
+node_modules
+.dist
+.cache
+dist
+.env
+coverage
+.DS_Store
+
+# .NET
+bin/
+obj/
+*.user
+.vs/
