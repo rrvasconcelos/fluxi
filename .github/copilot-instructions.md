@@ -44,6 +44,7 @@ regras, especialmente:
 - Clean Architecture
 - monólito modular
 - vertical slices por feature
+- SharedKernel pequeno e sem dependências das demais camadas
 - nomes em PascalCase para tipos e arquivos relevantes
 - regras de negócio no backend e não no front-end
 - documentação e fluxos atualizados junto com mudanças de negócio
@@ -58,6 +59,9 @@ regras, especialmente:
 - Não misture português e inglês no mesmo projeto.
 - Não criar pastas genéricas vazias como Util, Helper, Common, Misc sem
   necessidade real.
+- Não usar o SharedKernel como depósito genérico de código ou abstrações.
+- Só adicionar algo ao SharedKernel quando houver compartilhamento real e
+  justificado entre contextos ou camadas.
 - Não criar regras de negócio no frontend ou mobile.
 - Não criar lógica financeira em controllers, componentes ou views.
 - Não inventar campos, entidades ou regras sem consultar o schema e as

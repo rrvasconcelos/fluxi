@@ -93,10 +93,28 @@ exposição externa da API.
 A arquitetura do Fluxi será baseada em Clean Architecture, com uma abordagem híbrida que também incorpora vertical slices quando fizer sentido.
 
 ### Camadas principais
+- SharedKernel
 - Domain
 - Application
 - Infrastructure
 - API
+
+### SharedKernel
+
+O `SharedKernel` é uma camada técnica mínima para conceitos realmente
+compartilhados por mais de um contexto ou camada, sem pertencerem ao domínio
+específico de uma feature.
+
+Regras do `SharedKernel`:
+
+- não depende de Domain, Application, Infrastructure ou API;
+- não contém regras específicas de contas, transações, faturas ou imports;
+- não deve ser usado como pasta genérica para código que não encontrou lugar;
+- só deve receber tipos quando houver compartilhamento real e justificado;
+- deve permanecer pequeno para evitar acoplamento entre os módulos.
+
+O projeto foi criado nesta etapa apenas como camada estrutural. Nenhum tipo,
+abstração ou regra foi adicionado.
 
 ### Vertical slices
 Alguns contextos serão organizados em slices por funcionalidade, por exemplo:

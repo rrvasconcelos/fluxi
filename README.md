@@ -15,8 +15,10 @@ fluxi/
 │   │   └── appsettings*.json
 │   ├── Fluxi.Application/
 │   ├── Fluxi.Domain/
-│   └── Fluxi.Infrastructure/
+│   ├── Fluxi.Infrastructure/
+│   └── Fluxi.SharedKernel/
 ├── tests/
+│   ├── Fluxi.SharedKernel.Tests/
 │   ├── Fluxi.Domain.Tests/
 │   ├── Fluxi.Application.Tests/
 │   ├── Fluxi.Infrastructure.Tests/
@@ -36,6 +38,7 @@ fluxi/
 - evitar complexidade prematura
 - priorizar a v1 funcional em vez da arquitetura perfeita
 - separar API, aplicação, domínio e infraestrutura
+- manter o SharedKernel pequeno e sem dependências das demais camadas
 - manter schema e diagrama sincronizados
 
 ## Stack definida para a v1

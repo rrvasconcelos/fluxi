@@ -4,8 +4,10 @@
     <Project Path="src/Fluxi.Application/Fluxi.Application.csproj" />
     <Project Path="src/Fluxi.Domain/Fluxi.Domain.csproj" />
     <Project Path="src/Fluxi.Infrastructure/Fluxi.Infrastructure.csproj" />
+    <Project Path="src/Fluxi.SharedKernel/Fluxi.SharedKernel.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/Fluxi.SharedKernel.Tests/Fluxi.SharedKernel.Tests.csproj" />
     <Project Path="tests/Fluxi.Domain.Tests/Fluxi.Domain.Tests.csproj" />
     <Project Path="tests/Fluxi.Application.Tests/Fluxi.Application.Tests.csproj" />
     <Project Path="tests/Fluxi.Infrastructure.Tests/Fluxi.Infrastructure.Tests.csproj" />

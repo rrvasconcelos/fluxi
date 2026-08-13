@@ -93,16 +93,28 @@ concreta. Vertical slices devem ser introduzidos conforme features reais
 forem implementadas.
 
 ### Camadas obrigatórias
-1. Domain
-2. Application
-3. Infrastructure
-4. API
+1. SharedKernel
+2. Domain
+3. Application
+4. Infrastructure
+5. API
 
 ### Regras de camada
+- SharedKernel não depende de nenhuma outra camada do Fluxi.
 - Domain não depende de Application, Infrastructure ou API.
+- Domain pode depender de SharedKernel somente quando houver um conceito
+  realmente compartilhado.
 - Application depende de Domain, mas não de Infrastructure.
+- Application pode depender de SharedKernel somente quando houver um conceito
+  realmente compartilhado.
 - Infrastructure depende de Domain e Application.
+- Infrastructure pode depender de SharedKernel somente quando houver um
+  conceito realmente compartilhado.
 - API depende de Application e Infrastructure conforme necessário.
+
+O `SharedKernel` não deve se tornar uma pasta genérica ou um depósito de
+abstrações compartilhadas por conveniência. Cada tipo adicionado deve ter uma
+justificativa de compartilhamento entre contextos ou camadas.
 
 ### Vertical slices
 Para contextos de funcionalidade, a organização pode ser por feature, por exemplo:
@@ -117,6 +129,7 @@ A estrutura pode seguir:
 
 ```text
 src/
+  Fluxi.SharedKernel/
   Fluxi.Api/
   Fluxi.Application/
   Fluxi.Domain/
@@ -129,6 +142,7 @@ Os projetos de teste devem acompanhar as camadas de produção:
 
 ```text
 tests/
+  Fluxi.SharedKernel.Tests/
   Fluxi.Domain.Tests/
   Fluxi.Application.Tests/
   Fluxi.Infrastructure.Tests/
