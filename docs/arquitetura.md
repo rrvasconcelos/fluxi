@@ -33,28 +33,58 @@ Microserviços trazem custo operacional alto e complexidade desnecessária enqua
 
 ---
 
-## Stack proposta
+## Stack definida para a v1
+
+Esta é a stack definida para a v1. A fundação estrutural já foi configurada,
+mas a implementação das regras de negócio e das funcionalidades ainda não
+começou.
 
 ### Backend
-- .NET
-- ASP.NET Core Web API
+- .NET 10
 - C#
-- Entity Framework Core (em momento oportuno)
-
-### Web
-- Angular
-- TypeScript
-
-### Mobile
-- React Native + Expo
-- TypeScript
+- ASP.NET Core Minimal APIs
+- Entity Framework Core 10
+- Npgsql para integração com PostgreSQL
 
 ### Banco de dados
 - PostgreSQL único
 
-### Documentação e contratos
-- OpenAPI / Swagger
-- DTOs e contratos definidos pelo backend
+O banco será único porque o domínio exige consistência entre contas,
+transações, categorias, faturas, rendas e despesas fixas. Não haverá múltiplos
+bancos na v1.
+
+### Contratos e documentação da API
+- OpenAPI
+- DTOs separados das entidades de domínio
+- ProblemDetails para erros HTTP
+
+### Testes
+- xUnit
+- Testes unitários como base
+- Testes de integração apenas quando existirem fluxos reais para validar
+
+### Observabilidade
+- Logging estruturado com os recursos nativos do ASP.NET Core
+- Serilog somente se surgir uma necessidade concreta de sinks ou correlação
+	avançada
+
+### Clientes
+Frontend web e mobile não fazem parte do primeiro incremento. Angular,
+React Native e Expo permanecem como opções futuras, a serem decididas quando
+a API e o fluxo principal estiverem validados.
+
+### Fora do escopo inicial
+- autenticação, enquanto o uso permanecer local e pessoal
+- microserviços
+- múltiplos bancos
+- Kafka, RabbitMQ e outras plataformas de mensageria distribuída
+- Redis
+- parser de PDF
+- Open Finance
+- simulação de compra e parcelamento avançado
+
+Autenticação e proteção de segredos serão obrigatórias antes de qualquer
+exposição externa da API.
 
 ---
 
@@ -223,13 +253,15 @@ Operações mais pesadas, de processamento posterior, podem ser assíncronas.
 
 ## Por que não MAUI como escolha principal
 
-A ideia de usar MAUI é interessante, mas por enquanto não é a melhor decisão para este projeto.
+A ideia de usar MAUI é interessante, mas por enquanto não é uma decisão para
+o primeiro incremento deste projeto.
 
 Principais motivos:
 - o projeto ainda está em fase de definição da arquitetura e do produto
 - o foco atual é aprender e construir um produto útil, não travar em uma stack mobile específica
-- o ecossistema mobile com React Native tem mais maturidade para esse tipo de app
-- MAUI pode ser uma opção futura, mas não parece a melhor primeira escolha para um app financeiro pessoal com foco em UX mobile
+- a escolha do cliente mobile será feita somente depois da validação do
+	backend e do fluxo principal
+- MAUI pode ser reavaliado no futuro, mas não está definido como parte da v1
 
 ---
 

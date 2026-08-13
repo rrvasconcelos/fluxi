@@ -77,7 +77,20 @@ Mesmo que o projeto tenha documentação em português, a estrutura de código e
 - monólito modular
 - vertical slices em contextos funcionais
 - PostgreSQL como banco único
-- ASP.NET Core Web API como camada de entrada
+- ASP.NET Core Minimal APIs como camada de entrada
+
+### Organização da solução
+
+- projetos de produção ficam em `src/`
+- projetos de teste ficam em `tests/`
+- documentação fica em `docs/`
+- instruções e automação do repositório ficam em `.github/`
+- propriedades compartilhadas ficam em `Directory.Build.props`
+- versões de pacotes NuGet ficam em `Directory.Packages.props`
+
+Não criar pastas genéricas ou projetos vazios sem uma responsabilidade
+concreta. Vertical slices devem ser introduzidos conforme features reais
+forem implementadas.
 
 ### Camadas obrigatórias
 1. Domain
@@ -111,6 +124,19 @@ src/
 ```
 
 Dentro do Application, priorizar organização por feature e não por camada genérica.
+
+Os projetos de teste devem acompanhar as camadas de produção:
+
+```text
+tests/
+  Fluxi.Domain.Tests/
+  Fluxi.Application.Tests/
+  Fluxi.Infrastructure.Tests/
+  Fluxi.Api.Tests/
+```
+
+Cada projeto de teste deve referenciar somente a camada necessária e não deve
+duplicar testes de outra camada.
 
 Exemplo:
 

@@ -6,25 +6,25 @@ Fluxi é um app pessoal de controle financeiro com foco em múltiplas contas, im
 
 ```text
 fluxi/
+├── global.json
+├── Directory.Build.props
+├── Directory.Packages.props
 ├── src/
 │   ├── Fluxi.Api/
-│   │   ├── Controllers/
 │   │   ├── Program.cs
 │   │   └── appsettings*.json
 │   ├── Fluxi.Application/
-│   │   └── Services/
 │   ├── Fluxi.Domain/
-│   │   └── Entities/
 │   └── Fluxi.Infrastructure/
-│       ├── Data/
-│       ├── Repositories/
-│       └── External/
 ├── tests/
+│   ├── Fluxi.Domain.Tests/
+│   ├── Fluxi.Application.Tests/
+│   ├── Fluxi.Infrastructure.Tests/
 │   └── Fluxi.Api.Tests/
 ├── .github/
-│   └── copilot-instructions.md
-├── fluxi-schema.md
-├── fluxi-dbdiagram.dbml
+│   ├── copilot-instructions.md
+│   └── fluxi-business-context.md
+├── docs/
 ├── Fluxi.slnx
 ├── .gitignore
 └── README.md
@@ -38,16 +38,23 @@ fluxi/
 - separar API, aplicação, domínio e infraestrutura
 - manter schema e diagrama sincronizados
 
-## Stack atual
+## Stack definida para a v1
 
 - Backend: .NET 10 / ASP.NET Core Web API
-- Banco: PostgreSQL (a definir em momento oportuno)
+- API: ASP.NET Core Minimal APIs
+- Persistência: Entity Framework Core 10 com Npgsql
+- Banco: PostgreSQL
+- Contratos: OpenAPI e DTOs
 - Testes: xUnit
-- Frontend: ainda não será incluído neste repositório
+- Frontend: ainda fora do primeiro incremento
+
+A fundação estrutural da stack foi configurada. A implementação das regras
+de negócio e das funcionalidades ainda não começou.
 
 ## Próximo passo recomendado
 
-Começar pela API com o mínimo funcional para:
+Próximo passo: definir a primeira feature vertical e implementar o mínimo
+funcional para:
 - contas
 - categorias
 - regras de categoria

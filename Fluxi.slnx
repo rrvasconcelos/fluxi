@@ -6,6 +6,9 @@
     <Project Path="src/Fluxi.Infrastructure/Fluxi.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/Fluxi.Domain.Tests/Fluxi.Domain.Tests.csproj" />
+    <Project Path="tests/Fluxi.Application.Tests/Fluxi.Application.Tests.csproj" />
+    <Project Path="tests/Fluxi.Infrastructure.Tests/Fluxi.Infrastructure.Tests.csproj" />
     <Project Path="tests/Fluxi.Api.Tests/Fluxi.Api.Tests.csproj" />
   </Folder>
 </Solution>

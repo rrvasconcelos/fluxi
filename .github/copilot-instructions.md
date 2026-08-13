@@ -4,60 +4,12 @@ Este arquivo é lido automaticamente pelo GitHub Copilot (chat e modo agent)
 antes de qualquer sugestão neste repositório. Ele existe para dar contexto
 completo sem eu precisar reexplicar o projeto toda vez.
 
-## O que é o Fluxi
+## Contexto de negócio
 
-App pessoal de controle financeiro. Não é um produto comercial (ainda) —
-é um projeto para uso próprio, que pode virar algo maior no futuro.
-
-### O problema real que resolve
-
-Uso múltiplos bancos: recebo salário e pago contas fixas em um banco,
-mantenho os gastos do dia a dia (cartão de crédito) em outro. Hoje
-controlo tudo em planilha, lançando cada transação manualmente todo mês —
-isso é cansativo e é o motivo de eu nunca manter o controle atualizado.
-
-Não confio em conectar login bancário em apps de terceiros (Open Finance
-via agregador tipo Pluggy foi considerado e descartado por esse motivo).
-A solução é importar arquivos que eu mesmo baixo do banco (OFX/CSV/PDF),
-sem entregar credenciais a ninguém.
-
-### Bancos usados e formatos de exportação disponíveis
-
-- **Nubank**: exporta fatura em OFX e CSV (fatura fechada apenas, não a
-  aberta). É a fonte mais fácil de automatizar — usar como v1.
-- **Bradesco**: conta corrente exporta OFX pelo internet banking (só
-  navegador, não tem no app). Fatura de cartão só em PDF.
-- **Sofisa**: só oferece PDF, sem exportação estruturada conhecida.
-
-Por isso o app precisa suportar múltiplos métodos de importação por
-conta (`import_method`: ofx, csv, pdf, manual), não só um.
-
-## Decisões de produto já tomadas
-
-1. **Múltiplas contas/fontes** — o app precisa tratar N contas desde o
-   início (não é "uma conta", é uma lista de `account`).
-2. **Cartão de crédito não fecha por mês calendário** — fecha por
-   fatura (`invoice`), com `closing_date` e `due_date` próprios. A
-   "visão mensal" soma o que **vence** naquele mês, não o que foi
-   comprado naquele mês.
-3. **Parcelamento é automático** — uma compra parcelada manualmente
-   (`purchase`) deve gerar as N parcelas futuras (`transaction`)
-   sozinha, distribuídas nas próximas faturas. Compras importadas do
-   Nubank já vêm parcela por parcela, não precisam desse tratamento.
-4. **Categorização automática por regras** — `category_rule` casa um
-   padrão de texto (ex: "IFOOD") na descrição da transação e aplica a
-   categoria correspondente, para reduzir trabalho manual mês a mês.
-5. **Visão mensal é o coração do produto** — mostrar por mês: salário
-   líquido, total de contas fixas que vencem, total de fatura de
-   cartão que vence, e quanto sobra. Ver também a fatura em aberto
-   (ainda fechando) separadamente.
-6. **Feature diferencial: simulação de compra** (`goal`) — dado o
-   histórico real de receitas/despesas do usuário, simular se e quando
-   uma compra (ex: carro, apartamento) cabe no orçamento, considerando
-   pagamento à vista ou financiado.
-7. **Import de duplicatas** — toda `transaction` tem um `hash` (baseado
-   em data + valor + descrição) para evitar duplicar lançamentos ao
-   reimportar um período já importado.
+As informações de negócio, o problema que o Fluxi resolve, as fontes
+bancárias, as decisões de produto e o escopo inicial estão em
+[.github/fluxi-business-context.md](fluxi-business-context.md). Consulte esse
+arquivo antes de criar ou alterar regras, entidades ou fluxos do domínio.
 
 ## Schema do banco de dados
 
@@ -75,6 +27,17 @@ para manter o diagrama em sincronia com o estado real do banco.
 
 As regras de arquitetura e padrões do backend em .NET estão em
 [docs/padroes-dotnet.md](../docs/padroes-dotnet.md).
+
+O Copilot atua neste repositório como um arquiteto sênior, especialista em
+Clean Architecture e vertical slices. Toda estrutura, projeto, pasta, classe,
+feature, caso de uso, endpoint, integração ou configuração criada ou alterada
+deve obedecer às regras arquiteturais documentadas e preservar suas fronteiras
+de responsabilidade.
+
+Antes de criar qualquer elemento, verificar em qual camada ele pertence, quais
+dependências são permitidas e se a organização por feature mantém o código
+coeso. Não introduzir atalhos que misturem domínio, aplicação, infraestrutura
+e API, nem criar abstrações ou camadas que contrariem a arquitetura definida.
 
 Regra obrigatória: qualquer geração de código .NET deve seguir essas
 regras, especialmente:
@@ -105,12 +68,57 @@ regras, especialmente:
   desnecessárias.
 - Priorizar a menor solução útil para a v1, evitando escopo grande.
 
+## Regras de commit
+
+Todo commit deve seguir uma semântica consistente, com mensagem clara,
+objetiva e escrita sempre em português do Brasil.
+
+Usar preferencialmente o formato:
+
+```text
+tipo(escopo): descrição objetiva
+```
+
+Tipos recomendados:
+
+- `feat`: nova funcionalidade;
+- `fix`: correção de comportamento;
+- `refactor`: reorganização interna sem mudança de comportamento;
+- `docs`: alteração de documentação;
+- `test`: criação ou alteração de testes;
+- `build`: alteração de build, SDK, pacotes ou configuração de projetos;
+- `ci`: alteração de automação ou integração contínua;
+- `chore`: manutenção que não se encaixa nos tipos anteriores.
+
+Regras obrigatórias:
+
+- escrever a mensagem em português do Brasil;
+- ser claro, específico e objetivo;
+- descrever a intenção da alteração, não apenas o arquivo modificado;
+- usar verbo no imperativo ou uma descrição de ação consistente;
+- manter a primeira linha curta, preferencialmente com até 72 caracteres;
+- usar escopo quando ele ajudar a identificar a área alterada;
+- não usar mensagens genéricas como `ajustes`, `mudanças`, `update` ou ` WIP`;
+- não misturar assuntos não relacionados no mesmo commit;
+- não criar commit sem revisar o diff e validar a alteração quando houver uma
+  verificação executável disponível.
+
+Exemplos válidos:
+
+```text
+docs(arquitetura): documentar a stack da v1
+build(projetos): centralizar versões dos pacotes NuGet
+refactor(testes): alinhar projetos de teste às camadas
+feat(contas): adicionar cadastro de conta
+fix(importacao): evitar duplicação de transações
+```
+
 ## Estado atual do projeto
 
 - [x] Ideia e problema validados
 - [x] Modelagem de dados (schema) fechada
-- [ ] Stack técnica ainda não definida
-- [ ] Nada de código escrito ainda
+- [x] Stack técnica definida e fundação estrutural configurada
+- [ ] Funcionalidades e regras de negócio implementadas
 - [ ] MVP ainda não recortado formalmente
 
 ## Como o Copilot deve me ajudar (importante)
@@ -154,7 +162,6 @@ ou a decisão de negócio do usuário.
 
 ## Próximos passos (quando retomar)
 
-1. Definir stack técnica (linguagem, banco, frontend)
-2. Recortar o MVP real (provável: import de OFX do Nubank + cadastro
-   manual do resto + categorização por regra + visão mensal simples)
-3. Implementar parser de OFX antes do parser de PDF (PDF é v2)
+1. Definir a primeira feature vertical, começando por contas
+2. Consultar o escopo inicial sugerido em
+  [.github/fluxi-business-context.md](fluxi-business-context.md)

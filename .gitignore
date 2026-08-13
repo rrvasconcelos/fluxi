@@ -1,13 +1,101 @@
-node_modules
-.dist
-.cache
-dist
-.env
-coverage
-.DS_Store
+## Ignora arquivos de build e artefatos de compilação do .NET
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+[Ll]og/
+[Ll]ogs/
 
-# .NET
-bin/
-obj/
-*.user
+## Diretórios do Visual Studio
 .vs/
+.vscode/
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+## Arquivos de build do MSBuild
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]uild/
+msbuild.log
+msbuild.err
+msbuild.wrn
+
+## Resultados de teste
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.trx
+*.coverage
+*.coveragexml
+
+## Arquivos do NuGet
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nuget.props
+*.nuget.targets
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## Arquivos do ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+## Arquivos de publicação
+*.[Pp]ublish.xml
+*.azurePubxml
+*.pubxml
+*.pubxml.user
+*.publishproj
+PublishScripts/
+
+## Cache e opções do ReSharper / Rider
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+.idea/
+
+## Arquivos gerados pelo Entity Framework
+EntityFramework/
+
+## Backup do Visual Studio
+*.bak
+*.rej
+*.orig
+
+## Arquivos de configuração de usuário / segredos locais
+*.rsuser
+secrets.json
+appsettings.*.local.json
+
+## Node/NPM (caso o projeto tenha frontend integrado)
+node_modules/
+
+## Arquivos de sistema operacional
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+## Arquivos de credenciais e certificados (nunca versionar)
+*.pfx
+*.snk
+*.pem
+
+## Diretórios de saída de publish/deploy
+[Pp]ublish/
+FodyWeavers.xsd
+
+## Outros arquivos temporários comuns
+*.tmp
+*.temp
+*.swp
+*~
