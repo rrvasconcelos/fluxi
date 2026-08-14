@@ -25,9 +25,9 @@ Regras adicionais de contas:
 - o método de importação pode ser alterado entre os métodos suportados;
 - `manual` é aceito para qualquer conta;
 - a compatibilidade entre banco, tipo e formato de arquivo pertence ao fluxo
-	de importação, não ao cadastro da conta;
+  de importação, não ao cadastro da conta;
 - o tipo da conta pode ser alterado somente enquanto não houver movimentações
-	relacionadas;
+  relacionadas;
 - uma conta pode ser inativada e reativada;
 - contas inativas não podem receber novos lançamentos ou importações, mas
 	permanecem disponíveis para consulta histórica;
