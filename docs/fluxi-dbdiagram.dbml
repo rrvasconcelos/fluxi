@@ -3,10 +3,11 @@
 
 Table account {
   id uuid [pk]
-  name text [not null]
+  name text [not null, unique]
   bank text [not null]
   type text [not null]
   import_method text [not null]
+  status text [not null, default: 'active']
 }
 
 Table category {

@@ -16,6 +16,23 @@ flowchart TD
     H -- Não --> J[Fim]
 ```
 
+## Ciclo de vida da conta
+
+Ao cadastrar uma conta, ela começa ativa. O usuário pode:
+
+- alterar nome, banco, tipo ou método de importação conforme as regras do
+    domínio;
+- inativar uma conta que não será mais utilizada;
+- reativar uma conta inativa;
+- consultar o histórico de uma conta inativa.
+
+As operações de ativação e inativação são idempotentes: repetir uma operação
+que já corresponde ao estado atual não altera o resultado.
+
+A conta não é excluída fisicamente, porque transações, faturas, rendas e
+outros registros dependentes precisam permanecer disponíveis para o histórico
+financeiro.
+
 ## Observações
 
 - A experiência principal gira em torno da visão mensal.

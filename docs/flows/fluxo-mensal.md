@@ -22,3 +22,5 @@ flowchart TD
 - A visão mensal é o coração do produto.
 - O sistema deve considerar o que vence no mês, e não necessariamente o que foi comprado no mês.
 - O objetivo é mostrar quanto sobra antes de decisões financeiras mais complexas.
+- Contas inativas continuam disponíveis para consultas históricas, mas não
+    devem receber novos lançamentos na composição operacional do período.

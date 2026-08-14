@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Fluxi.SharedKernel\Fluxi.SharedKernel.csproj" />
+  </ItemGroup>
+
 </Project>
