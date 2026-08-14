@@ -36,12 +36,27 @@ Representa cada conta ou cartão. É a base do sistema.
 ```sql
 CREATE TABLE account (
   id            UUID PRIMARY KEY,
-  name          TEXT NOT NULL,
+  name          TEXT NOT NULL UNIQUE,
   bank          TEXT NOT NULL,
   type          TEXT NOT NULL,   -- 'checking' ou 'credit_card'
-  import_method TEXT NOT NULL    -- 'ofx', 'csv', 'manual'
+  import_method TEXT NOT NULL,   -- 'ofx', 'csv', 'manual'
+  status        TEXT NOT NULL DEFAULT 'active' -- 'active' ou 'inactive'
 );
 ```
+
+Regras da conta:
+- `name` é único no escopo single-user da v1;
+- `status` começa como `active`;
+- a conta não é excluída fisicamente; a inativação preserva os
+  relacionamentos e o histórico financeiro;
+- a alteração de `type` depende da ausência de movimentações relacionadas e
+  será garantida pelo caso de uso e pela persistência quando essas camadas
+  forem implementadas.
+
+As regras de unicidade entre registros, bloqueio de operações em contas
+inativas e validação de movimentações para alteração de `type` dependem de
+Application/Infrastructure. Elas não devem ser reproduzidas artificialmente
+na entidade de domínio.
 
 ---
 

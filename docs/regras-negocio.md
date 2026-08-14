@@ -16,8 +16,52 @@ Cada conta deve ter:
 - banco
 - tipo (`checking` ou `credit_card`)
 - método de importação (`ofx`, `csv`, `manual`)
+- status (`active` ou `inactive`)
+
+Regras adicionais de contas:
+- toda conta começa com status `active`;
+- o nome da conta deve ser único no escopo da v1, que ainda é single-user;
+- o nome pode ser alterado, desde que continue válido e único;
+- o método de importação pode ser alterado entre os métodos suportados;
+- `manual` é aceito para qualquer conta;
+- a compatibilidade entre banco, tipo e formato de arquivo pertence ao fluxo
+	de importação, não ao cadastro da conta;
+- o tipo da conta pode ser alterado somente enquanto não houver movimentações
+	relacionadas;
+- uma conta pode ser inativada e reativada;
+- contas inativas não podem receber novos lançamentos ou importações, mas
+	permanecem disponíveis para consulta histórica;
+- contas não podem ser excluídas fisicamente pelo fluxo de negócio, para
+	preservar o histórico financeiro.
 
 Cada transação deve estar vinculada a uma conta.
+
+### Limites de implementação das regras de conta
+
+As seguintes regras pertencem ao domínio e devem ser protegidas pelo
+agregado `Account`:
+
+- nome, banco, tipo, método de importação e status devem ser válidos;
+- nome, banco e método de importação podem ser alterados por comportamentos
+	explícitos;
+- uma conta começa ativa e pode ser ativada ou inativada;
+- ativar uma conta ativa e inativar uma conta inativa são operações
+	idempotentes;
+- o agregado não conhece bancos específicos, parsers ou formatos de arquivo.
+
+As seguintes regras dependem de consulta, persistência ou coordenação entre
+casos de uso e não devem ser implementadas isoladamente no agregado:
+
+- garantir que o nome seja único entre contas existentes;
+- impedir a alteração de tipo quando houver transações, faturas ou outras
+	movimentações relacionadas;
+- impedir novos lançamentos ou importações para contas inativas;
+- impedir exclusão física e preservar os relacionamentos históricos;
+- garantir unicidade e consistência em cenários concorrentes.
+
+Essas regras serão aplicadas quando Application e Infrastructure forem
+implementadas. A ausência dessas camadas nesta etapa não autoriza duplicar
+consultas, repositórios ou estado externo dentro do domínio.
 
 ## Regra 2 — Cartão de crédito por fatura
 O cartão de crédito deve ser tratado por fatura, não por mês calendário.

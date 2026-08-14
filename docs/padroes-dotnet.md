@@ -92,6 +92,12 @@ Não criar pastas genéricas ou projetos vazios sem uma responsabilidade
 concreta. Vertical slices devem ser introduzidos conforme features reais
 forem implementadas.
 
+Tipos e classes não devem ficar soltos diretamente na raiz das camadas
+`SharedKernel`, `Domain`, `Application` ou `Infrastructure`. Todo arquivo `.cs`
+de produção dessas camadas deve estar dentro da pasta que representa sua
+responsabilidade, contexto ou feature. O projeto/camada `Api` é a única
+exceção e pode manter arquivos `.cs` soltos na raiz, como `Program.cs`.
+
 ### Camadas obrigatórias
 1. SharedKernel
 2. Domain
@@ -115,6 +121,37 @@ forem implementadas.
 O `SharedKernel` não deve se tornar uma pasta genérica ou um depósito de
 abstrações compartilhadas por conveniência. Cada tipo adicionado deve ter uma
 justificativa de compartilhamento entre contextos ou camadas.
+
+### Clean Code e SOLID
+
+O código deve ser simples, legível e coeso. Nomes devem revelar intenção,
+métodos devem ter responsabilidades pequenas e não deve existir código morto,
+boilerplate de template ou abstração sem uso real.
+
+Os princípios SOLID devem ser aplicados de forma pragmática:
+
+- **Single Responsibility**: cada classe, método e módulo deve ter uma
+  responsabilidade coesa;
+- **Open/Closed**: permitir extensões legítimas sem modificar regras estáveis
+  sem necessidade;
+- **Liskov Substitution**: manter contratos válidos nas hierarquias;
+- **Interface Segregation**: criar interfaces pequenas e específicas somente
+  quando houver consumidores reais;
+- **Dependency Inversion**: preservar a direção das dependências da Clean
+  Architecture e manter o domínio independente da infraestrutura.
+
+SOLID não deve ser usado como justificativa para criar interfaces, heranças,
+camadas ou projetos artificiais.
+
+### SharedKernel e entidades
+
+Toda entidade deve herdar de `Entity`, definida no `SharedKernel`. A classe
+base deve permanecer pequena e transversal, sem receber persistência,
+auditoria ou regras específicas de um contexto.
+
+Uma entidade deve proteger suas invariantes e expor comportamento de domínio.
+Setters públicos e modelos anêmicos não devem ser usados sem uma justificativa
+clara.
 
 ### Vertical slices
 Para contextos de funcionalidade, a organização pode ser por feature, por exemplo:
@@ -264,9 +301,75 @@ Empregar repositórios para acesso a dados e não espalhar queries em toda aplic
 ### 7) Evitar anemias de camada
 A camada de domínio deve ter lógica relevante quando ela fizer sentido, mas não virar um “bag of entities” sem comportamento.
 
+### Exceções de domínio
+
+O projeto deve possuir uma `DomainException` base na camada de domínio.
+Exceções específicas de um contexto, como validações de `Account`, devem
+herdar dela. O tratamento dessas exceções em API ou middleware será definido
+em uma etapa posterior; o domínio não deve conhecer essa infraestrutura.
+
+### 8) TDD e organização dos testes
+
+O desenvolvimento de comportamentos deve seguir o ciclo Red-Green-Refactor:
+
+1. escrever um teste comportamental que falha;
+2. implementar o menor código necessário para passar;
+3. refatorar preservando o comportamento.
+
+Nenhum teste deve ser criado apenas para aumentar cobertura, preencher um
+projeto ou antecipar uma arquitetura. Todo teste precisa estar ligado a um
+comportamento ou regra de negócio definida, começar em estado Red e seguir o
+ciclo TDD até o estado Green e a refatoração necessária.
+
+Testes devem:
+
+- ser escritos em inglês, incluindo nomes, cenários e mensagens;
+- ser organizados por camada e por feature;
+- testar comportamento observável, não detalhes de implementação;
+- ser rápidos, determinísticos e independentes;
+- evitar infraestrutura externa nos testes de domínio;
+- separar explicitamente as etapas com comentários `// Arrange`, `// Act` e
+  `// Assert`, sempre em inglês;
+- ser executados de forma focada antes da suíte completa.
+
+### 9) Organização de arquivos C#
+
+Todo arquivo `.cs` mantido manualmente, incluindo testes, deve usar `#region`
+com rótulos em inglês e ordem consistente. As regiões não devem ser vazias,
+excessivamente aninhadas ou usadas para esconder responsabilidades misturadas.
+
+Uma ordem comum é:
+
+```text
+Fields
+Constructors
+Properties
+Factory Methods
+Methods
+Validation
+Tests
+```
+
+Exemplos de organização:
+
+```text
+Fluxi.Domain/
+  Accounts/Account.cs
+  Exceptions/DomainException.cs
+
+Fluxi.SharedKernel/
+  Entities/Entity.cs
+```
+
 ---
 
 ## Regras sobre fluxo de desenvolvimento
+
+### 0) Branches de feature
+
+Nenhuma implementação deve ser feita diretamente na branch `develop`. Toda
+feature deve começar em uma branch `feature/<feature-name>` criada a partir de
+`develop` e só deve ser integrada após validação e revisão.
 
 ### 1) Nunca criar feature sem pensar em domínio
 Antes de criar classes e endpoints, definir o que a funcionalidade representa no domínio do Fluxi.
