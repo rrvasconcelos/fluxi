@@ -118,6 +118,9 @@ regras, especialmente:
 - Usar TDD como abordagem padrão para comportamentos do sistema.
 - Nenhum teste pode ser criado sem estar associado a um comportamento ou regra
   claramente definida e sem seguir o ciclo TDD.
+- Toda alteração nas referências entre projetos deve respeitar a matriz de
+  dependências documentada em `docs/arquitetura.md` e passar pela suíte
+  `Fluxi.Architecture.Tests` antes de ser integrada.
 - Respeitar o ciclo Red-Green-Refactor: primeiro um teste falho, depois o menor
   código que o torna verde e, por fim, uma refatoração segura.
 - Manter testes, nomes de testes, cenários e mensagens de teste em inglês.

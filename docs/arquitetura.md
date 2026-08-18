@@ -127,6 +127,23 @@ Alguns contextos serão organizados em slices por funcionalidade, por exemplo:
 
 Isso ajuda a manter o código coeso e evitar que o projeto vire uma grande massa de serviços e abstrações genéricas sem propósito.
 
+### Proteção das fronteiras
+
+As dependências entre as camadas são protegidas por testes arquiteturais em
+`tests/Fluxi.Architecture.Tests`. O teste verifica as referências diretas dos
+assemblies compilados e falha quando uma camada passa a depender de um projeto
+Fluxi fora da matriz permitida:
+
+- `SharedKernel` não depende de nenhum projeto Fluxi;
+- `Domain` depende somente de `SharedKernel`;
+- `Application` depende somente de `Domain` e `SharedKernel`;
+- `Infrastructure` pode depender de `Domain`, `Application` e `SharedKernel`;
+- `Api` pode depender de `Application` e `Infrastructure`.
+
+Dependências externas, como `System`, ASP.NET Core e pacotes NuGet, não fazem
+parte dessa verificação. A suíte deve ser executada junto com os demais testes
+antes de qualquer integração de alterações estruturais.
+
 A combinação de clean architecture + vertical slices entrega:
 - clareza de responsabilidade
 - baixo acoplamento
