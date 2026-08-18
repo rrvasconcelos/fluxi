@@ -59,6 +59,11 @@ regras, especialmente:
 - Não misture português e inglês no mesmo projeto.
 - Não criar pastas genéricas vazias como Util, Helper, Common, Misc sem
   necessidade real.
+- Dentro de cada feature da camada `Domain`, organizar os arquivos por
+  responsabilidade em subpastas como `Entities`, `Enums`, `Exceptions` e
+  outras somente quando houver um tipo de arquivo que justifique a pasta.
+  Não deixar arquivos `.cs` diretamente na raiz da feature; a única exceção
+  é quando criar uma subpasta for desnecessário e houver justificativa clara.
 - Não deixar classes ou outros tipos `.cs` soltos diretamente na raiz das
   camadas `SharedKernel`, `Domain`, `Application` ou `Infrastructure`. Todo
   tipo deve estar em uma pasta de responsabilidade, contexto ou feature.
