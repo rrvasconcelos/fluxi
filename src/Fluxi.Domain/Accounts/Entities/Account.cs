@@ -1,8 +1,10 @@
+using Fluxi.Domain.Accounts.Enums;
+using Fluxi.Domain.Accounts.Exceptions;
 using Fluxi.SharedKernel.Entities;
 
-namespace Fluxi.Domain.Accounts;
+namespace Fluxi.Domain.Accounts.Entities;
 
-public sealed class Account : Entity
+public sealed class Account : AuditableEntity
 {
     #region Constructors
 
@@ -19,6 +21,7 @@ public sealed class Account : Entity
         Type = type;
         ImportMethod = importMethod;
         Status = AccountStatus.Active;
+        CreatedOn = DateTime.UtcNow;
     }
 
     #endregion

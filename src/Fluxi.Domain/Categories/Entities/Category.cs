@@ -1,8 +1,9 @@
+using Fluxi.Domain.Categories.Exceptions;
 using Fluxi.SharedKernel.Entities;
 
-namespace Fluxi.Domain.Categories;
+namespace Fluxi.Domain.Categories.Entities;
 
-public sealed class Category : Entity
+public sealed class Category : AuditableEntity
 {
     #region Constructors
 

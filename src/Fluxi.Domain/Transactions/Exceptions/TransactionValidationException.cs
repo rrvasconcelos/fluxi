@@ -1,6 +1,6 @@
 using Fluxi.Domain.Exceptions;
 
-namespace Fluxi.Domain.Transactions;
+namespace Fluxi.Domain.Transactions.Exceptions;
 
 public sealed class TransactionValidationException : DomainException
 {

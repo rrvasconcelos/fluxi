@@ -1,11 +1,13 @@
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
+using Fluxi.Domain.Transactions.Enums;
+using Fluxi.Domain.Transactions.Exceptions;
 using Fluxi.SharedKernel.Entities;
 
-namespace Fluxi.Domain.Transactions;
+namespace Fluxi.Domain.Transactions.Entities;
 
-public sealed class Transaction : Entity
+public sealed class Transaction : AuditableEntity
 {
     #region Constructors
 

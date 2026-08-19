@@ -1,4 +1,6 @@
-using Fluxi.Domain.Accounts;
+using Fluxi.Domain.Accounts.Entities;
+using Fluxi.Domain.Accounts.Enums;
+using Fluxi.Domain.Accounts.Exceptions;
 
 namespace Fluxi.Domain.Tests.Accounts;
 

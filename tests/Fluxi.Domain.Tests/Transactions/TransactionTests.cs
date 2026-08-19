@@ -1,4 +1,6 @@
-using Fluxi.Domain.Transactions;
+using Fluxi.Domain.Transactions.Entities;
+using Fluxi.Domain.Transactions.Enums;
+using Fluxi.Domain.Transactions.Exceptions;
 
 namespace Fluxi.Domain.Tests.Transactions;
 
