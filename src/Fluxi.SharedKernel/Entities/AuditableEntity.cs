@@ -1,20 +1,15 @@
 namespace Fluxi.SharedKernel.Entities;
 
-public abstract class AuditableEntity : Entity
+public abstract class AuditableEntity(Guid id) : Entity(id)
 {
-    #region Constructors
 
-    protected AuditableEntity(Guid id)
-        : base(id)
-    {
-        CreatedOn = DateTime.UtcNow;
-    }
+    #region Constructors
 
     #endregion
 
     #region Properties
 
-    public DateTime CreatedOn { get; private set; }
+    public DateTime CreatedOn { get; private set; } = DateTime.UtcNow;
 
     public DateTime? UpdatedOn { get; private set; }
 
