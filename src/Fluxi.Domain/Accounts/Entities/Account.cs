@@ -21,7 +21,6 @@ public sealed class Account : AuditableEntity
         Type = type;
         ImportMethod = importMethod;
         Status = AccountStatus.Active;
-        CreatedOn = DateTime.UtcNow;
     }
 
     #endregion
