@@ -62,10 +62,3 @@ Table fixed_expense {
   due_day int [not null]
   notes text
 }
-
-Ref: transaction.account_id > account.id
-Ref: transaction.invoice_id > invoice.id
-Ref: transaction.category_id > category.id
-Ref: category_rule.category_id > category.id
-Ref: invoice.account_id > account.id
-Ref: income.account_id > account.id

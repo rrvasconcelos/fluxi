@@ -1,4 +1,5 @@
-using Fluxi.Domain.Categories;
+using Fluxi.Domain.Categories.Entities;
+using Fluxi.Domain.Categories.Exceptions;
 
 namespace Fluxi.Domain.Tests.Categories;
 

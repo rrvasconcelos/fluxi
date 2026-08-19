@@ -1,6 +1,6 @@
 using Fluxi.Domain.Exceptions;
 
-namespace Fluxi.Domain.Categories;
+namespace Fluxi.Domain.Categories.Exceptions;
 
 public sealed class CategoryValidationException : DomainException
 {

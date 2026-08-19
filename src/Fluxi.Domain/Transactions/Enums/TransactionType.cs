@@ -1,4 +1,4 @@
-namespace Fluxi.Domain.Transactions;
+namespace Fluxi.Domain.Transactions.Enums;
 
 public enum TransactionType
 {

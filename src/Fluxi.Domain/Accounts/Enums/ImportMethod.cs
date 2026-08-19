@@ -1,4 +1,4 @@
-namespace Fluxi.Domain.Accounts;
+namespace Fluxi.Domain.Accounts.Enums;
 
 public enum ImportMethod
 {

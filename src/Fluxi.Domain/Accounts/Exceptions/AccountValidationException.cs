@@ -1,6 +1,6 @@
 using Fluxi.Domain.Exceptions;
 
-namespace Fluxi.Domain.Accounts;
+namespace Fluxi.Domain.Accounts.Exceptions;
 
 public sealed class AccountValidationException : DomainException
 {
