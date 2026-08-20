@@ -3,9 +3,6 @@ namespace Fluxi.SharedKernel.Entities;
 public abstract class AuditableEntity(Guid id) : Entity(id)
 {
 
-    #region Constructors
-
-    #endregion
 
     #region Properties
 
