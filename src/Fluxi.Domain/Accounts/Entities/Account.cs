@@ -4,7 +4,7 @@ using Fluxi.SharedKernel.Entities;
 
 namespace Fluxi.Domain.Accounts.Entities;
 
-public sealed class Account : AuditableEntity
+public sealed class Account : AuditableEntity<Guid>
 {
     #region Constructors
 

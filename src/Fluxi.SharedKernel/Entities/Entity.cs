@@ -1,12 +1,13 @@
 namespace Fluxi.SharedKernel.Entities;
 
-public abstract class Entity
+public abstract class Entity<TId>
+    where TId : notnull
 {
     #region Constructors
 
-    protected Entity(Guid id)
+    protected Entity(TId id)
     {
-        if (id == Guid.Empty)
+        if (EqualityComparer<TId>.Default.Equals(id, default!))
         {
             throw new ArgumentException("Entity identity cannot be empty.", nameof(id));
         }
@@ -18,7 +19,7 @@ public abstract class Entity
 
     #region Properties
 
-    public Guid Id { get; }
+    public TId Id { get; }
 
     #endregion
 
@@ -26,9 +27,9 @@ public abstract class Entity
 
     public override bool Equals(object? obj)
     {
-        return obj is Entity entity
+        return obj is Entity<TId> entity
             && entity.GetType() == GetType()
-            && entity.Id == Id;
+            && EqualityComparer<TId>.Default.Equals(entity.Id, Id);
     }
 
     public override int GetHashCode()
