@@ -2,6 +2,9 @@ using System.Xml.Linq;
 
 namespace Fluxi.Architecture.Tests.Architecture;
 
+[Trait(TestTraits.Category, TestTraits.ArchitectureCategory)]
+[Trait(TestTraits.Layer, TestTraits.ArchitectureLayer)]
+[Trait(TestTraits.Feature, TestTraits.DependenciesFeature)]
 public sealed class LayerDependencyTests
 {
     #region Tests

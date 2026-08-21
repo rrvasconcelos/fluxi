@@ -4,6 +4,9 @@ using Fluxi.Domain.Accounts.Exceptions;
 
 namespace Fluxi.Domain.Tests.Accounts;
 
+[Trait(TestTraits.Category, TestTraits.UnitCategory)]
+[Trait(TestTraits.Layer, TestTraits.DomainLayer)]
+[Trait(TestTraits.Feature, TestTraits.AccountsFeature)]
 public sealed class AccountTests
 {
     #region Tests

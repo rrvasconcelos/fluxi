@@ -3,6 +3,9 @@ using Fluxi.Domain.Categories.Exceptions;
 
 namespace Fluxi.Domain.Tests.Categories;
 
+[Trait(TestTraits.Category, TestTraits.UnitCategory)]
+[Trait(TestTraits.Layer, TestTraits.DomainLayer)]
+[Trait(TestTraits.Feature, TestTraits.CategoriesFeature)]
 public sealed class CategoryRuleTests
 {
     #region Tests
