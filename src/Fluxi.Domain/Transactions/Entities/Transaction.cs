@@ -7,7 +7,7 @@ using Fluxi.SharedKernel.Entities;
 
 namespace Fluxi.Domain.Transactions.Entities;
 
-public sealed class Transaction : AuditableEntity
+public sealed class Transaction : AuditableEntity<Guid>
 {
     #region Constructors
 
@@ -72,8 +72,9 @@ public sealed class Transaction : AuditableEntity
     {
         Validate(accountId, description, amount, type, origin, categoryId, invoiceId);
 
+        // Version 7 keeps ids time-ordered, improving index locality on this high-volume table.
         return new Transaction(
-            Guid.NewGuid(),
+            Guid.CreateVersion7(),
             accountId,
             date,
             description.Trim(),

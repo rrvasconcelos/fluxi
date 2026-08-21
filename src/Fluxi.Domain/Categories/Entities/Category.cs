@@ -3,7 +3,7 @@ using Fluxi.SharedKernel.Entities;
 
 namespace Fluxi.Domain.Categories.Entities;
 
-public sealed class Category : AuditableEntity
+public sealed class Category : AuditableEntity<Guid>
 {
     #region Constructors
 

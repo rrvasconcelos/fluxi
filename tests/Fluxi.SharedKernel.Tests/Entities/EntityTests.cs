@@ -2,6 +2,9 @@ using Fluxi.SharedKernel.Entities;
 
 namespace Fluxi.SharedKernel.Tests.Entities;
 
+[Trait(TestTraits.Category, TestTraits.UnitCategory)]
+[Trait(TestTraits.Layer, TestTraits.SharedKernelLayer)]
+[Trait(TestTraits.Feature, TestTraits.EntitiesFeature)]
 public sealed class EntityTests
 {
     #region Tests
@@ -64,13 +67,62 @@ public sealed class EntityTests
         Assert.Equal(firstHashCode, secondHashCode);
     }
 
+    [Fact]
+    public void Create_WithDefaultNonGuidId_ShouldThrow()
+    {
+        // Arrange
+        Action action = () => new TestIntEntity(0);
+
+        // Act
+        ArgumentException exception = Assert.Throws<ArgumentException>(action);
+
+        // Assert
+        Assert.Equal("id", exception.ParamName);
+    }
+
+    [Fact]
+    public void Equals_WithNonGuidIdAndSameValue_ShouldReturnTrue()
+    {
+        // Arrange
+        TestIntEntity first = new(1);
+        TestIntEntity second = new(1);
+
+        // Act
+        bool result = first.Equals(second);
+
+        // Assert
+        Assert.True(result);
+    }
+
+    [Fact]
+    public void Equals_WithNonGuidIdAndDifferentValue_ShouldReturnFalse()
+    {
+        // Arrange
+        TestIntEntity first = new(1);
+        TestIntEntity second = new(2);
+
+        // Act
+        bool result = first.Equals(second);
+
+        // Assert
+        Assert.False(result);
+    }
+
     #endregion
 
     #region Test Doubles
 
-    private sealed class TestEntity : Entity
+    private sealed class TestEntity : Entity<Guid>
     {
         public TestEntity(Guid id)
+            : base(id)
+        {
+        }
+    }
+
+    private sealed class TestIntEntity : Entity<int>
+    {
+        public TestIntEntity(int id)
             : base(id)
         {
         }

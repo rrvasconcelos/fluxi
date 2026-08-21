@@ -1,9 +1,8 @@
 namespace Fluxi.SharedKernel.Entities;
 
-public abstract class AuditableEntity(Guid id) : Entity(id)
+public abstract class AuditableEntity<TId>(TId id) : Entity<TId>(id)
+    where TId : notnull
 {
-
-
     #region Properties
 
     public DateTime CreatedOn { get; private set; } = DateTime.UtcNow;

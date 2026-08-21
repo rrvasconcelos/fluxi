@@ -4,6 +4,9 @@ using Fluxi.Domain.Transactions.Exceptions;
 
 namespace Fluxi.Domain.Tests.Transactions;
 
+[Trait(TestTraits.Category, TestTraits.UnitCategory)]
+[Trait(TestTraits.Layer, TestTraits.DomainLayer)]
+[Trait(TestTraits.Feature, TestTraits.TransactionsFeature)]
 public sealed class TransactionTests
 {
     #region Tests
@@ -37,6 +40,26 @@ public sealed class TransactionTests
         Assert.Null(transaction.CategoryId);
         Assert.Null(transaction.InvoiceId);
         Assert.False(string.IsNullOrWhiteSpace(transaction.Hash));
+    }
+
+    [Fact]
+    public void Create_ShouldGenerateTimeOrderedId()
+    {
+        // Arrange
+        Guid accountId = Guid.NewGuid();
+        DateOnly date = new(2026, 8, 17);
+
+        // Act
+        Transaction transaction = Transaction.Create(
+            accountId,
+            date,
+            "Grocery store",
+            125.50m,
+            TransactionType.Expense,
+            TransactionOrigin.Manual);
+
+        // Assert
+        Assert.Equal(7, transaction.Id.Version);
     }
 
     [Fact]
