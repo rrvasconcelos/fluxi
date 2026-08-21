@@ -26,5 +26,7 @@ internal static class TestTraits
 
     public const string InvoicesFeature = "Invoices";
 
+    public const string IncomesFeature = "Incomes";
+
     #endregion
 }
