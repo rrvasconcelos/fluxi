@@ -1,4 +1,5 @@
 using Fluxi.Domain.Categories.Exceptions;
+using Fluxi.Domain.Transactions.Entities;
 using Fluxi.SharedKernel.Entities;
 
 namespace Fluxi.Domain.Categories.Entities;
@@ -17,7 +18,15 @@ public sealed class Category : AuditableEntity<Guid>
 
     #region Properties
 
+    private readonly List<CategoryRule> _rules = [];
+
+    private readonly List<Transaction> _transactions = [];
+
     public string Name { get; private set; }
+
+    public IReadOnlyCollection<CategoryRule> Rules => _rules;
+
+    public IReadOnlyCollection<Transaction> Transactions => _transactions;
 
     #endregion
 

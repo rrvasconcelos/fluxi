@@ -1,3 +1,4 @@
+using Fluxi.Domain.Accounts.Entities;
 using Fluxi.Domain.Incomes.Exceptions;
 using Fluxi.SharedKernel.Entities;
 
@@ -36,6 +37,8 @@ public sealed class Income : AuditableEntity<Guid>
     public int ReceiptDay { get; }
 
     public bool IsRecurring { get; }
+
+    public Account? Account { get; private set; }
 
     #endregion
 

@@ -11,6 +11,7 @@ public sealed class CategoryRule : AuditableEntity<Guid>
         : base(id)
     {
         Pattern = pattern;
+        CategoryId = category.Id;
         Category = category;
         Priority = priority;
     }
@@ -21,9 +22,11 @@ public sealed class CategoryRule : AuditableEntity<Guid>
 
     public string Pattern { get; }
 
-    public Category Category { get; }
+    public Guid CategoryId { get; }
 
     public int Priority { get; }
+
+    public Category Category { get; }
 
     #endregion
 

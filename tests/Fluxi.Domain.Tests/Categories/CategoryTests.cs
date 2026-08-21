@@ -24,6 +24,19 @@ public sealed class CategoryTests
         Assert.Equal(name, category.Name);
     }
 
+    [Fact]
+    public void Create_ShouldInitializeRelatedEntities()
+    {
+        // Arrange
+
+        // Act
+        Category category = Category.Create("Food");
+
+        // Assert
+        Assert.Empty(category.Rules);
+        Assert.Empty(category.Transactions);
+    }
+
     [Theory]
     [InlineData(null)]
     [InlineData("")]

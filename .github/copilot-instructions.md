@@ -137,6 +137,8 @@ regras, especialmente:
 - Exceções específicas de cada contexto devem herdar de `DomainException`;
   o tratamento externo dessas exceções será definido posteriormente.
 - Não criar entidades anêmicas com setters públicos sem necessidade real.
+- Em entidades, declarar propriedades de navegação abaixo de todas as
+  propriedades escalares.
 - Não mover regras do domínio para controllers, endpoints, persistência ou
   infraestrutura.
 - Todo arquivo `.cs` mantido manualmente, incluindo testes, deve ser organizado

@@ -1,5 +1,8 @@
 using Fluxi.Domain.Accounts.Enums;
 using Fluxi.Domain.Accounts.Exceptions;
+using Fluxi.Domain.Incomes.Entities;
+using Fluxi.Domain.Invoices.Entities;
+using Fluxi.Domain.Transactions.Entities;
 using Fluxi.SharedKernel.Entities;
 
 namespace Fluxi.Domain.Accounts.Entities;
@@ -27,6 +30,12 @@ public sealed class Account : AuditableEntity<Guid>
 
     #region Properties
 
+    private readonly List<Income> _incomes = [];
+
+    private readonly List<Invoice> _invoices = [];
+
+    private readonly List<Transaction> _transactions = [];
+
     public string Name { get; private set; }
 
     public string Bank { get; private set; }
@@ -36,6 +45,12 @@ public sealed class Account : AuditableEntity<Guid>
     public ImportMethod ImportMethod { get; private set; }
 
     public AccountStatus Status { get; private set; }
+
+    public IReadOnlyCollection<Income> Incomes => _incomes;
+
+    public IReadOnlyCollection<Invoice> Invoices => _invoices;
+
+    public IReadOnlyCollection<Transaction> Transactions => _transactions;
 
     #endregion
 

@@ -1,5 +1,7 @@
-﻿using Fluxi.Domain.Invoices.Enums;
+﻿using Fluxi.Domain.Accounts.Entities;
+using Fluxi.Domain.Invoices.Enums;
 using Fluxi.Domain.Invoices.Exceptions;
+using Fluxi.Domain.Transactions.Entities;
 using Fluxi.SharedKernel.Entities;
 
 namespace Fluxi.Domain.Invoices.Entities;
@@ -23,9 +25,12 @@ public sealed class Invoice : AuditableEntity<Guid>
         Status = InvoiceStatus.Open;
     }
 
+
     #endregion
 
     #region Properties
+
+    private readonly List<Transaction> _transactions = [];
 
     public Guid AccountId { get; }
 
@@ -38,6 +43,10 @@ public sealed class Invoice : AuditableEntity<Guid>
     public decimal? TotalAmount { get; private set; }
 
     public InvoiceStatus Status { get; private set; }
+
+    public Account? Account { get; private set; }
+
+    public IReadOnlyCollection<Transaction> Transactions => _transactions;
 
     #endregion
 
@@ -126,4 +135,3 @@ public sealed class Invoice : AuditableEntity<Guid>
 
     #endregion
 }
-
