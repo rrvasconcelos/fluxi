@@ -18,10 +18,10 @@ Já existem regras implementadas para:
 - CategoryRule
 - Transaction
 - Invoice
+- Income
 
 Falta concluir as regras do restante do modelo financeiro da v1:
 
-- Income
 - FixedExpense
 
 ## 1) Account
@@ -292,7 +292,7 @@ Antes de avançar, cada entidade deve ter testes que cubram:
 - [x] CategoryRule validado e coerente
 - [x] Transaction validado e coerente
 - [x] Invoice validado e coerente
-- [ ] Income validado e coerente
+- [x] Income validado e coerente
 - [ ] FixedExpense validado e coerente
 - [ ] Domínio sem regras de infraestrutura misturadas
 - [ ] Testes de domínio verdes
