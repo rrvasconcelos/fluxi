@@ -43,6 +43,20 @@ public sealed class TransactionTests
     }
 
     [Fact]
+    public void Create_ShouldExposeNavigations()
+    {
+        // Arrange
+
+        // Act
+        Transaction transaction = CreateTransaction();
+
+        // Assert
+        Assert.Null(transaction.Account);
+        Assert.Null(transaction.Category);
+        Assert.Null(transaction.Invoice);
+    }
+
+    [Fact]
     public void Create_ShouldGenerateTimeOrderedId()
     {
         // Arrange

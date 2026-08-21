@@ -33,6 +33,20 @@ public sealed class InvoiceTests
         Assert.Null(invoice.TotalAmount);
     }
 
+
+    [Fact]
+    public void Create_ShouldInitializeRelatedTransactions()
+    {
+        // Arrange
+
+        // Act
+        Invoice invoice = CreateInvoice();
+
+        // Assert
+        Assert.Null(invoice.Account);
+        Assert.Empty(invoice.Transactions);
+    }
+
     [Fact]
     public void Create_WithEmptyAccountId_ShouldThrow()
     {
@@ -231,4 +245,3 @@ public sealed class InvoiceTests
 
     #endregion
 }
-

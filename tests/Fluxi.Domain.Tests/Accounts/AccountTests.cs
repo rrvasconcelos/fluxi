@@ -36,6 +36,20 @@ public sealed class AccountTests
         Assert.Equal(importMethod, account.ImportMethod);
     }
 
+    [Fact]
+    public void Create_ShouldInitializeRelatedEntities()
+    {
+        // Arrange
+
+        // Act
+        Account account = CreateAccount();
+
+        // Assert
+        Assert.Empty(account.Incomes);
+        Assert.Empty(account.Invoices);
+        Assert.Empty(account.Transactions);
+    }
+
     [Theory]
     [InlineData(null)]
     [InlineData("")]

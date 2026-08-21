@@ -1,5 +1,7 @@
 using Fluxi.Domain.Incomes.Entities;
 using Fluxi.Domain.Incomes.Exceptions;
+using Fluxi.Domain.Accounts.Entities;
+using Fluxi.Domain.Accounts.Enums;
 
 namespace Fluxi.Domain.Tests.Incomes;
 
@@ -29,6 +31,23 @@ public sealed class IncomeTests
         Assert.Equal(amount, income.Amount);
         Assert.Equal(receiptDay, income.ReceiptDay);
         Assert.True(income.IsRecurring);
+    }
+
+    [Fact]
+    public void Create_ShouldExposeAccountNavigation()
+    {
+        // Arrange
+        Account account = Account.Create(
+            "Nubank",
+            "Nubank",
+            AccountType.Checking,
+            ImportMethod.Ofx);
+
+        // Act
+        Income income = Income.Create(account.Id, "Monthly salary", 5000m, 5);
+
+        // Assert
+        Assert.Null(income.Account);
     }
 
     [Fact]

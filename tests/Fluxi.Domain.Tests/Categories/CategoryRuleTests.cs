@@ -24,6 +24,7 @@ public sealed class CategoryRuleTests
         // Assert
         Assert.NotEqual(Guid.Empty, categoryRule.Id);
         Assert.Equal(pattern, categoryRule.Pattern);
+        Assert.Equal(category.Id, categoryRule.CategoryId);
         Assert.Equal(category, categoryRule.Category);
         Assert.Equal(priority, categoryRule.Priority);
     }

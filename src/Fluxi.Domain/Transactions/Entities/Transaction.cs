@@ -1,6 +1,9 @@
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
+using Fluxi.Domain.Accounts.Entities;
+using Fluxi.Domain.Categories.Entities;
+using Fluxi.Domain.Invoices.Entities;
 using Fluxi.Domain.Transactions.Enums;
 using Fluxi.Domain.Transactions.Exceptions;
 using Fluxi.SharedKernel.Entities;
@@ -55,6 +58,12 @@ public sealed class Transaction : AuditableEntity<Guid>
     public TransactionOrigin Origin { get; }
 
     public string Hash { get; }
+
+    public Account? Account { get; private set; }
+
+    public Invoice? Invoice { get; private set; }
+
+    public Category? Category { get; private set; }
 
     #endregion
 
