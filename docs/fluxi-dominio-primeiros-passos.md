@@ -19,10 +19,9 @@ Já existem regras implementadas para:
 - Transaction
 - Invoice
 - Income
-
-Falta concluir as regras do restante do modelo financeiro da v1:
-
 - FixedExpense
+
+Todas as regras de domínio das entidades financeiras previstas para a v1 foram implementadas.
 
 ## 1) Account
 
@@ -293,7 +292,7 @@ Antes de avançar, cada entidade deve ter testes que cubram:
 - [x] Transaction validado e coerente
 - [x] Invoice validado e coerente
 - [x] Income validado e coerente
-- [ ] FixedExpense validado e coerente
+- [x] FixedExpense validado e coerente
 - [ ] Domínio sem regras de infraestrutura misturadas
 - [ ] Testes de domínio verdes
 - [ ] Pronto para Application
