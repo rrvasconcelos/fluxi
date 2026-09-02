@@ -1,40 +1,16 @@
-﻿using Fluxi.Application.Abstractions.Data;
+﻿using Fluxi.Application.Features.Accounts.CreateAccount;
 using Fluxi.Domain.Accounts.Entities;
 using Fluxi.Domain.Accounts.Enums;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 
 namespace Fluxi.Application.Tests.Accounts.CreateAccount;
 
-[Trait(TestTraits.Category, TestTraits.UnitCategory)]
+[Trait(TestTraits.Category, TestTraits.IntegrationCategory)]
 [Trait(TestTraits.Layer, TestTraits.ApplicationLayer)]
 [Trait(TestTraits.Feature, TestTraits.AccountsFeature)]
 public class CreateAccountHandlerTests
 {
-    #region Fields
-
-    private readonly Mock<IApplicationDbContext> _dbContext;
-    private readonly Mock<DbSet<Account>> _accounts;
-    private readonly CreateAccountHandler _handler;
-
-    #endregion
-    
-    #region Constructors
-
-    public CreateAccountHandlerTests()
-    {
-        _dbContext = new Mock<IApplicationDbContext>();
-        _accounts = new Mock<DbSet<Account>>();
-
-        _dbContext
-            .SetupGet(context => context.Accounts)
-            .Returns(_accounts.Object);
-
-        _handler = new CreateAccountHandler(_dbContext.Object);
-    }
-
-    #endregion
-    
     #region Tests
 
     [Fact]
@@ -47,22 +23,75 @@ public class CreateAccountHandlerTests
             AccountType.CreditCard,
             ImportMethod.Ofx);
 
+        await using var connection = new SqliteConnection("Data Source=:memory:");
+        await connection.OpenAsync();
+        await using var context = CreateDbContext(connection);
+        await context.Database.EnsureCreatedAsync();
+
+        var handler = new CreateAccountCommandHandler(context);
+
         // Act
-        await _handler.Handle(command, CancellationToken.None);
+        var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        _accounts.Verify(
-            accounts => accounts.Add(It.Is<Account>(account =>
-                account.Name == command.Name &&
-                account.Bank == command.Bank &&
-                account.Type == command.Type &&
-                account.ImportMethod == command.ImportMethod &&
-                account.Status == AccountStatus.Active)),
-            Times.Once);
+        Assert.True(result.IsSuccess);
+        context.ChangeTracker.Clear();
 
-        _dbContext.Verify(
-            context => context.SaveChangesAsync(CancellationToken.None),
-            Times.Once);
+        var account = await context.Accounts.SingleAsync();
+        Assert.Equal(command.Name, account.Name);
+        Assert.Equal(command.Bank, account.Bank);
+        Assert.Equal(command.Type, account.Type);
+        Assert.Equal(command.ImportMethod, account.ImportMethod);
+        Assert.Equal(AccountStatus.Active, account.Status);
+    }
+
+    [Fact]
+    public async Task Handle_WithExistingAccount_ShouldReturnError()
+    {
+        // Arrange
+        var command = new CreateAccountCommand(
+            "Nubank Credit Card",
+            "Nubank",
+            AccountType.CreditCard,
+            ImportMethod.Ofx);
+
+        var existingAccount = Account.Create(
+            command.Name,
+            command.Bank,
+            command.Type,
+            command.ImportMethod);
+
+        await using var connection = new SqliteConnection("Data Source=:memory:");
+        await connection.OpenAsync();
+        await using var context = CreateDbContext(connection);
+        await context.Database.EnsureCreatedAsync();
+
+        context.Accounts.Add(existingAccount);
+        await context.SaveChangesAsync();
+        context.ChangeTracker.Clear();
+
+        var handler = new CreateAccountCommandHandler(context);
+
+        // Act
+        var result = await handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        Assert.False(result.IsSuccess);
+        Assert.Equal("An account with the same name already exists.", result.Error.Description);
+        Assert.Equal(1, await context.Accounts.CountAsync());
+    }
+
+    #endregion
+
+    #region Helpers
+
+    private static CreateAccountDbContext CreateDbContext(SqliteConnection connection)
+    {
+        var options = new DbContextOptionsBuilder<CreateAccountDbContext>()
+            .UseSqlite(connection)
+            .Options;
+
+        return new CreateAccountDbContext(options);
     }
 
     #endregion

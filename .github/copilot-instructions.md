@@ -90,6 +90,38 @@ regras, especialmente:
 - Toda implementação deve seguir Clean Code: nomes claros, métodos coesos,
   responsabilidades pequenas, baixo acoplamento e ausência de código morto ou
   boilerplate sem propósito.
+- Antes de editar, identificar o caminho que realmente controla o
+  comportamento, formular uma hipótese verificável e executar a validação mais
+  barata que possa refutá-la. Não implementar por tentativa e erro nem alterar
+  código de produção para contornar limitações de testes ou mocks.
+- Preferir as práticas estáveis e amplamente adotadas pela comunidade .NET,
+  pela documentação oficial e pelos frameworks já usados no repositório. Se
+  houver trade-off relevante, explicitar impacto em correção, desempenho,
+  manutenção e complexidade antes de escolher a alternativa.
+- Preferir soluções simples com complexidade proporcional ao problema. Não
+  introduzir abstrações, dependências, padrões ou código auxiliar apenas para
+  encurtar um teste ou antecipar necessidades sem consumidor real.
+- Toda operação sobre dados deve executar a menor quantidade de trabalho
+  necessária. Para filtros, existência, contagem, paginação e projeção, deixar
+  o banco de dados executar a operação por meio de consultas traduzíveis pelo
+  provedor; nunca materializar ou enumerar uma tabela inteira em memória quando
+  uma consulta específica pode responder à pergunta.
+- Para verificar existência, usar operações próprias como `AnyAsync` com
+  predicado e `CancellationToken`, esperando uma consulta `EXISTS` traduzida
+  pelo EF Core. Não usar `foreach`, `ToList`, `Count` ou `First` apenas para
+  descobrir se um registro existe.
+- Projetar consultas para trazer somente os dados necessários: filtrar e
+  projetar antes de materializar, evitar N+1, não incluir navegações sem uso e
+  aplicar paginação em listagens. Criar ou solicitar índices coerentes com
+  filtros, unicidade e ordenações que façam parte do schema e das consultas.
+- Não alterar regras do domínio, contratos de produção ou escolhas de
+  persistência para facilitar testes. Testar consultas EF assíncronas com um
+  provedor compatível ou adaptador específico; usar doubles simples apenas
+  quando eles preservarem o comportamento observado pelo código de produção.
+- Considerar concorrência nas regras de unicidade: a validação prévia melhora a
+  experiência, mas a restrição única do banco é a garantia final. Mapear a
+  violação dessa restrição para um erro de negócio quando a persistência for
+  implementada.
 - Aplicar SOLID de forma pragmática, sem criar interfaces, classes ou camadas
   apenas para satisfazer uma sigla.
 - Respeitar especialmente o Single Responsibility Principle: cada classe,
@@ -108,7 +140,9 @@ regras, especialmente:
 - Remover código de template, exemplos e dependências que não pertençam ao
   contexto real antes de considerar uma feature concluída.
 - Toda feature nova deve ser revisada contra Clean Code, SOLID, DDD, TDD e
-  Clean Architecture antes de ser integrada.
+  Clean Architecture antes de ser integrada. A revisão também deve cobrir
+  correção, validação de entrada, concorrência, segurança, desempenho e
+  observabilidade proporcional ao impacto da mudança.
 
 ## Regras de desenvolvimento e testes
 
